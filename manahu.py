@@ -1,28 +1,18 @@
-import gi
+import curses
+from curses import wrapper
 
-gi.require_version("Gtk", "4.0")
-from gi.repository import Gtk 
+def manahuTerm(stdscr):
+    stdscr.clear()
+    text1 = "Select A Style"
 
-class Main(Gtk.ApplicationWindow):
-    def __init__(self, **kargs):
-        super().__init__(**kargs, title="Manahu-Term")
-        self.button = Gtk.Button(label="Click Me!!")
-        self.button.connect("clicked", self.on_button_clicked)
-        self.set_child(self.button)
+    h, w = stdscr.getmaxyx()
+    x = w // 2 - len(text1)//2 - 20
+    y = h//2    - 12
 
-    def on_button_clicked(self, _widget):
-        self.close()
-
-def on_activate(app):
-    #create ApplicationWindow
-    Window = Main(application=app)
-    Window.present()
-
-app = Gtk.Application(application_id="com.manahu-Term.Terminal")
-app.connect("activate", on_activate)
-
-app.run(None)
+    stdscr.addstr(y, x, text1)
 
 
+    stdscr.refresh()
+    stdscr.getch()
 
-
+wrapper(manahuTerm)
